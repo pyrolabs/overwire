@@ -2,7 +2,6 @@ import firebase from 'firebase'
 import { isArray, isObject, map } from 'lodash'
 
 let _cachedVendorBundle = null
-let _head = document.getElementsByTagName('head')[0]
 let _scripts = []
 
 const determineRequiredBundles = () => {
@@ -12,7 +11,7 @@ const determineRequiredBundles = () => {
   }
   _scripts.push(firebase.database().ref('/app-bundle').once('value'))
 }
-
+const getHead = () => window.document.getElementsByTagName('head')[0]
 const loadRequiredBundles = () => {
   let s = document.createElement('script')
   return Promise.all(_scripts)
@@ -25,12 +24,16 @@ const loadRequiredBundles = () => {
         localStorage.setItem('vendor-bundle', snapshots[0].val())
         s.innerHTML = snapshots[0].val() + snapshots[1].val()
       } else {
-        throw new Error('Miscalculated scripts')
+        return Promise.reject('Miscalculated scripts')
       }
-      _head.parentNode.insertBefore(s, _head)
+      getHead().parentNode.insertBefore(s, getHead())
     })
 }
-
+/**
+ * @description Load a list of scripts
+ * @param {Array|Object} scriptsUrlsArr - Array or object of URLS of scripts
+ * to be loaded.
+ */
 const loadScripts = (scriptsUrlsArr) => {
   if (isArray(scriptsUrlsArr) || isObject(scriptsUrlsArr)) {
     return Promise.all(
@@ -49,15 +52,15 @@ const loadScripts = (scriptsUrlsArr) => {
       }
     }
     if (typeof scriptsUrlsArr === 'object' && typeof scriptsUrlsArr.src !== 'undefined') {
-      for (key in scriptsUrlsArr) {
-        s[key] = scriptsUrlsArr[key]
+      for (key in scriptsUrlsArr) { // eslint-disable-line no-undef
+        s[key] = scriptsUrlsArr[key] // eslint-disable-line no-undef
       }
     } else if (typeof scriptsUrlsArr === 'string') {
       s.src = scriptsUrlsArr
     } else {
-      throw new Error('Script source undefined')
+      return Promise.reject('Script source undefined')
     }
-    _head.parentNode.insertBefore(s, _head)
+    getHead().parentNode.insertBefore(s, getHead())
   })
 }
 

@@ -5,3 +5,4 @@ docs
 dist
 lib
 *.log
+_book

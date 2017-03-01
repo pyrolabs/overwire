@@ -17,8 +17,6 @@ ecmaFeatures:
 globals:
 
 rules:
-  import/no-unresolved: 2
-  consistent-return: 2
   max-len: 0
   no-else-return: 2
   arrow-body-style: ['error', 'as-needed']
@@ -28,7 +26,6 @@ rules:
   no-use-before-define: 2
   no-extra-boolean-cast: 0
   react/jsx-filename-extension: 0
-  import/no-named-as-default: 0
   react/prefer-stateless-function: 0
 
 settings:

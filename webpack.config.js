@@ -5,8 +5,7 @@ var pkg = require('./package.json')
 var config = {
   module: {
     loaders: [
-      { test: /\.js$/, loaders: [ 'babel' ], exclude: [ /node_modules/ ] },
-      { test: /\.json$/, loaders: [ 'json' ], exclude: [] }
+      { test: /\.js$/, loaders: [ 'babel' ], exclude: [ /node_modules/ ] }
     ]
   },
   plugins: [
@@ -40,7 +39,7 @@ if (process.env.NODE_ENV === 'production') {
         screw_ie8: false
       }
     }),
-    new webpack.BannerPlugin('testGen.js v' + pkg.version + ' | (c) prescottprue',
+    new webpack.BannerPlugin('Overwire.js v' + pkg.version + ' | (c) Pyro Labs',
       {
         raw: false, entryOnly: true
       })
