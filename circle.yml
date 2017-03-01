@@ -1,0 +1,22 @@
+
+version: 2
+
+executorType: docker
+
+containerInfo:
+  - image: node:6.9.2
+
+stages:
+  build:
+    workDir: ~/overwire
+
+    steps:
+      - type: checkout
+
+      - type: shell
+        command: npm install
+
+      - type: shell
+        command: ~/overwire/node_modules/.bin/run-s lint:fix test
+        environment:
+          - NODE_ENV: "test"
